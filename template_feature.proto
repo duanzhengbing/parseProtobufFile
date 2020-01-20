@@ -1,0 +1,43 @@
+syntax = "proto2";
+package pb;
+option optimize_for = LITE_RUNTIME;
+message KeyPoint {
+    required float x = 1;
+	required float y = 2;
+}
+
+enum FaceDirection {
+    MIDDLE = 0;
+    UP = 1;
+    DOWN = 2;
+    LEFT = 3;
+    RIGHT = 4;
+}
+
+message Image {
+    required bytes data = 1;
+    required uint32 format = 2;
+    required int32 width = 3;
+    required int32 height = 4;
+    required int32 stride = 5;
+}
+
+message SingleTemlate {
+    required Image imageInfo = 1;
+    required string feature = 2;
+    repeated KeyPoint points = 3;
+    optional FaceDirection direction = 4;
+}
+
+message SinglePersonTemplate {
+    required int32 index = 1;
+    repeated SingleTemlate singleTemlate = 2;
+}
+
+message TemplateFile{
+    required string versionString = 1 [default = "1.0.0"];
+    required int32 singlePersonTemplateIndex = 2;
+    required int32 modelVersion = 3;
+    required string identifier = 4;
+    repeated SinglePersonTemplate singlePersonTemplate = 5;
+}
